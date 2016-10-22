@@ -48,7 +48,9 @@ public class PatientController {
 	
 	@RequestMapping("/delPatient")
 	public String delPatient(Integer[] patientId) throws Exception{
-		
+		if(patientId==null){
+			return "redirect:queryPatient.action";
+		}
 		for (Integer integer : patientId) {
 			patientService.deletePatient(integer);
 		}
