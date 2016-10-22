@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.his1.mapper.PatientMapper" >
+  <resultMap id="BaseResultMap" type="com.his1.pojo.Patient" >
+    <id column="patient_id" property="patientId" jdbcType="INTEGER" />
+    <result column="patient_name" property="patientName" jdbcType="VARCHAR" />
+    <result column="patient_sex" property="patientSex" jdbcType="VARCHAR" />
+    <result column="patient_phone" property="patientPhone" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.his1.pojo.Patient" extends="BaseResultMap" >
+    <result column="patient_address" property="patientAddress" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    patient_id, patient_name, patient_sex, patient_phone
+  </sql>
+  <sql id="Blob_Column_List" >
+    patient_address
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.his1.pojo.PatientExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from patient
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.his1.pojo.PatientExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from patient
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from patient
+    where patient_id = #{patientId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from patient
+    where patient_id = #{patientId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.his1.pojo.PatientExample" >
+    delete from patient
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.his1.pojo.Patient" >
+    insert into patient (patient_id, patient_name, patient_sex, 
+      patient_phone, patient_address)
+    values (#{patientId,jdbcType=INTEGER}, #{patientName,jdbcType=VARCHAR}, #{patientSex,jdbcType=VARCHAR}, 
+      #{patientPhone,jdbcType=VARCHAR}, #{patientAddress,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.his1.pojo.Patient" >
+    insert into patient
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="patientId != null" >
+        patient_id,
+      </if>
+      <if test="patientName != null" >
+        patient_name,
+      </if>
+      <if test="patientSex != null" >
+        patient_sex,
+      </if>
+      <if test="patientPhone != null" >
+        patient_phone,
+      </if>
+      <if test="patientAddress != null" >
+        patient_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="patientId != null" >
+        #{patientId,jdbcType=INTEGER},
+      </if>
+      <if test="patientName != null" >
+        #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="patientSex != null" >
+        #{patientSex,jdbcType=VARCHAR},
+      </if>
+      <if test="patientPhone != null" >
+        #{patientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="patientAddress != null" >
+        #{patientAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.his1.pojo.PatientExample" resultType="java.lang.Integer" >
+    select count(*) from patient
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update patient
+    <set >
+      <if test="record.patientId != null" >
+        patient_id = #{record.patientId,jdbcType=INTEGER},
+      </if>
+      <if test="record.patientName != null" >
+        patient_name = #{record.patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patientSex != null" >
+        patient_sex = #{record.patientSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patientPhone != null" >
+        patient_phone = #{record.patientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.patientAddress != null" >
+        patient_address = #{record.patientAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update patient
+    set patient_id = #{record.patientId,jdbcType=INTEGER},
+      patient_name = #{record.patientName,jdbcType=VARCHAR},
+      patient_sex = #{record.patientSex,jdbcType=VARCHAR},
+      patient_phone = #{record.patientPhone,jdbcType=VARCHAR},
+      patient_address = #{record.patientAddress,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update patient
+    set patient_id = #{record.patientId,jdbcType=INTEGER},
+      patient_name = #{record.patientName,jdbcType=VARCHAR},
+      patient_sex = #{record.patientSex,jdbcType=VARCHAR},
+      patient_phone = #{record.patientPhone,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.his1.pojo.Patient" >
+    update patient
+    <set >
+      <if test="patientName != null" >
+        patient_name = #{patientName,jdbcType=VARCHAR},
+      </if>
+      <if test="patientSex != null" >
+        patient_sex = #{patientSex,jdbcType=VARCHAR},
+      </if>
+      <if test="patientPhone != null" >
+        patient_phone = #{patientPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="patientAddress != null" >
+        patient_address = #{patientAddress,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where patient_id = #{patientId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.his1.pojo.Patient" >
+    update patient
+    set patient_name = #{patientName,jdbcType=VARCHAR},
+      patient_sex = #{patientSex,jdbcType=VARCHAR},
+      patient_phone = #{patientPhone,jdbcType=VARCHAR},
+      patient_address = #{patientAddress,jdbcType=LONGVARCHAR}
+    where patient_id = #{patientId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.his1.pojo.Patient" >
+    update patient
+    set patient_name = #{patientName,jdbcType=VARCHAR},
+      patient_sex = #{patientSex,jdbcType=VARCHAR},
+      patient_phone = #{patientPhone,jdbcType=VARCHAR}
+    where patient_id = #{patientId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findPatientList" parameterType="com.his1.pojo.Patient" resultMap="ResultMapWithBLOBs">
+	select * from patient
+		<where>
+			<include refid="queryPatientList" />
+		</where>
+  </select>
+  
+  <sql id="queryPatientList">
+			<if test="patientName!=null and patientName!=''">
+				patient.patient_name LIKE '%${patientName}%'
+			</if>
+	</sql>
+</mapper>

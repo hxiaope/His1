@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.his1.mapper.UserMapper">
+	<select id="findUser" parameterType="java.lang.String" resultType="com.his1.pojo.User">
+		select * from user where username=#{username,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="updateUserById" parameterType="com.his1.pojo.User">
+		update user 
+		set 
+			username=#{username,jdbcType=VARCHAR},
+			password=#{password,jdbcType=VARCHAR}
+		where id=#{id,jdbcType=INTEGER}
+	</update>
+	
+	<insert id="insertUser" parameterType="com.his1.pojo.User">
+		insert into user (username,password)
+		values(#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR})
+	</insert>
+</mapper>
