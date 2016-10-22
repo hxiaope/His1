@@ -37,7 +37,12 @@ public class LogonController {
 	
 			
 }
-	
+	/**
+	 * 
+	 * @param session
+	 * @return 清除session，身份失效
+	 * @throws Exception
+	 */
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) throws Exception{
 		
